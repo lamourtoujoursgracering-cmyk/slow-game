@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>もっとゆっくり行こう 〜人生急ぎ過ぎだよ。〜</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #f4ede2; font-family: sans-serif; overflow: hidden; user-select: none; -webkit-user-select: none; text-align: center; color: #4a3e3d; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
+        #title-screen { position: absolute; width: 100%; height: 100%; background: #f4ede2; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #2d2424; letter-spacing: 0.2rem; }
+        p.subtitle { font-size: 1.1rem; margin-top: 0; color: #705e52; margin-bottom: 2.5rem; }
+        .btn { padding: 15px 35px; font-size: 1.2rem; background-color: #8c7863; color: white; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15); font-weight: bold; }
+        #game-view { display: none; position: relative; width: 100vmin; height: 56.25vmin; background: #e6dfd3; border: 3px solid #8c7863; border-radius: 12px; box-shadow: inset 0 2px 15px rgba(0,0,0,0.08); box-sizing: border-box; overflow: hidden; }
+        #info { position: absolute; top: 15px; left: 0; width: 100%; font-size: 1.2rem; font-weight: bold; z-index: 5; }
+        #status { font-size: 0.85rem; color: #705e52; font-weight: normal; margin-top: 5px; display: inline-block; }
+        .line { position: absolute; width: 6px; height: 100%; background: #bfa18f; opacity: 0.7; }
+        #start-line { left: 60px; }
+        #goal-line { right: 60px; background: #617a55; width: 12px; opacity: 1; }
+        #ball { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d4b296 0%, #ad8b73 40%, #7c5c43 85%, #503724 100%); box-shadow: 2px 6px 10px rgba(80, 55, 36, 0.4); z-index: 4; transform: translate(-15px, -15px); }
+        .obstacle { position: absolute; width: 40px; height: 40px; background-color: #ba7967; border-radius: 6px; z-index: 3; transform: translate(-20px, -20px); }
+        .gate-wall { position: absolute; width: 16px; background-color: #8c7863; z-index: 3; }
+        .oasis { position: absolute; width: 80px; height: 100%; background: rgba(97, 122, 85, 0.25); border-left: 2px dashed #617a55; border-right: 2px dashed #617a55; z-index: 2; display: flex; justify-content: center; align-items: center; color: #43543a; font-size: 0.8rem; font-weight: bold; transform: translateX(-40px); }
+        #message-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(244, 237, 226, 0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 8; }
+        #message-text { font-size: 1.4rem; font-weight: bold; color: #a75d5d; margin-bottom: 20px; line-height: 1.6; }
+    </style>
+</head>
+<body>
+    <div id="title-screen">
+        <h1>もっとゆっくり行こう</h1>
+        <p class="subtitle">〜人生急ぎ過ぎだよ。〜</p>
+        <button id="start-btn" class="btn">ゲームを始める</button>
+        <p style="margin-top:20px; font-size:0.9rem; color:#705e52;">※スマホを【横向き】にして遊んでね</p>
+    </div>
+    <div id="game-view">
+        <div id="info">タイム: <span id="timer">0.00</span> 秒<br><span id="status">スマホを右に少し傾けてスタート…</span></div>
+        <div id="start-line" class="line"></div>
+        <div id="goal-line" class="line"></div>
+        <div class="oasis" style="left: 500px;">休憩所</div>
+        <div class="obstacle" style="left: 300px; top: 180px;"></div>
+        <div class="obstacle" style="left: 720px; top: 420px;"></div>
+        <div class="gate-wall" style="left: 580px; top: 0; height: 250px;"></div>
+        <div class="gate-wall" style="left: 580px; top: 292px; height: 308px;"></div>
+        <div id="ball"></div>
+        <div id="message-overlay"><div id="message-text"></div><button id="restart-btn" class="btn">もう一度歩む</button></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
