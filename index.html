@@ -3,23 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>もっとゆっくり行こう 〜人生急ぎ過ぎだよ。〜</title>
+    <title>もっとゆっくり行こう</title>
     <style>
+        * { box-sizing: border-box; }
         body { margin: 0; padding: 0; background-color: #f4ede2; font-family: sans-serif; overflow: hidden; user-select: none; -webkit-user-select: none; text-align: center; color: #4a3e3d; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        #title-screen { position: absolute; width: 100%; height: 100%; background: #f4ede2; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
+        #title-screen { position: absolute; top:0; left:0; width: 100vw; height: 100vh; background: #f4ede2; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 10; }
         h1 { font-size: 2.2rem; margin-bottom: 0.5rem; color: #2d2424; letter-spacing: 0.2rem; }
         p.subtitle { font-size: 1.1rem; margin-top: 0; color: #705e52; margin-bottom: 2.5rem; }
         .btn { padding: 15px 35px; font-size: 1.2rem; background-color: #8c7863; color: white; border: none; border-radius: 25px; cursor: pointer; box-shadow: 0 4px 6px rgba(0,0,0,0.15); font-weight: bold; }
-        #game-view { display: none; position: relative; width: 100vmin; height: 56.25vmin; background: #e6dfd3; border: 3px solid #8c7863; border-radius: 12px; box-shadow: inset 0 2px 15px rgba(0,0,0,0.08); box-sizing: border-box; overflow: hidden; }
-        #info { position: absolute; top: 15px; left: 0; width: 100%; font-size: 1.2rem; font-weight: bold; z-index: 5; }
-        #status { font-size: 0.85rem; color: #705e52; font-weight: normal; margin-top: 5px; display: inline-block; }
-        .line { position: absolute; width: 6px; height: 100%; background: #bfa18f; opacity: 0.7; }
-        #start-line { left: 60px; }
-        #goal-line { right: 60px; background: #617a55; width: 12px; opacity: 1; }
-        #ball { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d4b296 0%, #ad8b73 40%, #7c5c43 85%, #503724 100%); box-shadow: 2px 6px 10px rgba(80, 55, 36, 0.4); z-index: 4; transform: translate(-15px, -15px); }
-        .obstacle { position: absolute; width: 40px; height: 40px; background-color: #ba7967; border-radius: 6px; z-index: 3; transform: translate(-20px, -20px); }
-        .gate-wall { position: absolute; width: 16px; background-color: #8c7863; z-index: 3; }
-        .oasis { position: absolute; width: 80px; height: 100%; background: rgba(97, 122, 85, 0.25); border-left: 2px dashed #617a55; border-right: 2px dashed #617a55; z-index: 2; display: flex; justify-content: center; align-items: center; color: #43543a; font-size: 0.8rem; font-weight: bold; transform: translateX(-40px); }
+        #game-view { display: none; position: relative; width: 100vw; height: 56.25vw; max-height: 100vh; max-width: 177.78vh; background: #e6dfd3; border: 3px solid #8c7863; border-radius: 12px; box-shadow: inset 0 2px 15px rgba(0,0,0,0.08); overflow: hidden; margin: auto; }
+        #info { position: absolute; top: 15px; left: 0; width: 100%; font-size: 1.2rem; font-weight: bold; z-index: 5; pointer-events: none; }
+        #status { font-size: 0.85rem; color: #a75d5d; font-weight: normal; margin-top: 5px; display: inline-block; }
+        .line { position: absolute; width: 0.6%; height: 100%; background: #bfa18f; opacity: 0.7; }
+        #start-line { left: 6%; }
+        #goal-line { right: 6%; background: #617a55; width: 1.2%; opacity: 1; }
+        #ball { position: absolute; width: 3vmin; height: 3vmin; min-width: 20px; min-height: 20px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #d4b296 0%, #ad8b73 40%, #7c5c43 85%, #503724 100%); box-shadow: 2px 4px 8px rgba(80, 55, 36, 0.4); z-index: 4; transform: translate(-50%, -50%); }
+        .obstacle { position: absolute; width: 4vmin; height: 4vmin; min-width: 25px; min-height: 25px; background-color: #ba7967; border-radius: 6px; z-index: 3; transform: translate(-50%, -50%); }
+        .gate-wall { position: absolute; width: 1.6%; background-color: #8c7863; z-index: 3; }
+        .oasis { position: absolute; width: 8%; height: 100%; background: rgba(97, 122, 85, 0.25); border-left: 2px dashed #617a55; border-right: 2px dashed #617a55; z-index: 2; display: flex; justify-content: center; align-items: center; color: #43543a; font-size: 1.5vmin; font-weight: bold; transform: translateX(-50%); }
         #message-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(244, 237, 226, 0.85); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 8; }
         #message-text { font-size: 1.4rem; font-weight: bold; color: #a75d5d; margin-bottom: 20px; line-height: 1.6; }
     </style>
@@ -32,98 +33,58 @@
         <p style="margin-top:20px; font-size:0.9rem; color:#705e52;">※スマホを【横向き】にして遊んでね</p>
     </div>
     <div id="game-view">
-        <div id="info">タイム: <span id="timer">0.00</span> 秒<br><span id="status">スマホを右に少し傾けてスタート…</span></div>
+        <div id="info">タイム: <span id="timer">0.00</span> 秒<br><span id="status">2秒以内に右へ傾けてスタート！</span></div>
         <div id="start-line" class="line"></div>
         <div id="goal-line" class="line"></div>
-        <div class="oasis" style="left: 500px;">休憩所</div>
-        <div class="obstacle" style="left: 300px; top: 180px;"></div>
-        <div class="obstacle" style="left: 720px; top: 420px;"></div>
-        <div class="gate-wall" style="left: 580px; top: 0; height: 250px;"></div>
-        <div class="gate-wall" style="left: 580px; top: 292px; height: 308px;"></div>
+        <div class="oasis" style="left: 50%;">休憩所</div>
+        <div class="obstacle" style="left: 30%; top: 30%;"></div>
+        <div class="obstacle" style="left: 75%; top: 70%;"></div>
+        <div class="gate-wall" style="left: 58%; top: 0; height: 40%;"></div>
+        <div class="gate-wall" style="left: 58%; top: 60%; height: 40%;"></div>
         <div id="ball"></div>
         <div id="message-overlay"><div id="message-text"></div><button id="restart-btn" class="btn">もう一度歩む</button></div>
     </div>
-
     <script>
-        const titleScreen = document.getElementById('title-screen');
-        const gameView = document.getElementById('game-view');
-        const startBtn = document.getElementById('start-btn');
-        const restartBtn = document.getElementById('restart-btn');
-        const ball = document.getElementById('ball');
-        const timerText = document.getElementById('timer');
-        const statusText = document.getElementById('status');
-        const overlay = document.getElementById('message-overlay');
-        const msgText = document.getElementById('message-text');
-
-        const V_WIDTH = 1000; const V_HEIGHT = 562.5;
-        let vX = 60; let vY = V_HEIGHT / 2;
-        let speedX = 0; let speedY = 0;
-        let startTime = 0; let elapsedBeforeOasis = 0;
-        let isPlaying = false; let isAtOasis = false; let gameActive = false;
-        let animationFrameId;
-
+        const titleScreen = document.getElementById('title-screen'), gameView = document.getElementById('game-view'), startBtn = document.getElementById('start-btn'), restartBtn = document.getElementById('restart-btn'), ball = document.getElementById('ball'), timerText = document.getElementById('timer'), statusText = document.getElementById('status'), overlay = document.getElementById('message-overlay'), msgText = document.getElementById('message-text');
+        const V_WIDTH = 1000, V_HEIGHT = 562.5; let vX = 60, vY = V_HEIGHT / 2, speedX = 0, speedY = 0, tiltX = 0, tiltY = 0, startTime = 0, elapsedBeforeOasis = 0, isStarted = false, isPlaying = false, isAtOasis = false, gameActive = false, startTimeoutTimer = 0, animationFrameId;
         startBtn.addEventListener('click', async () => {
             if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
-                try {
-                    const permissionState = await DeviceOrientationEvent.requestPermission();
-                    if (permissionState === 'granted') { initGame(); }
-                    else { alert('センサーの利用が拒否されました。'); }
-                } catch (error) { alert('エラー: ' + error); }
-            } else { initGame(); }
+                try { const p = await DeviceOrientationEvent.requestPermission(); if (p === 'granted') initGame(); else alert('拒否されました'); } catch (e) { alert('エラー: ' + e); }
+            } else initGame();
         });
-
         restartBtn.addEventListener('click', () => { overlay.style.display = 'none'; resetGame(); gameActive = true; loop(); });
-
         function initGame() { titleScreen.style.display = 'none'; gameView.style.display = 'block'; resetGame(); window.addEventListener('deviceorientation', handleOrientation); window.addEventListener('keydown', handleKeyDown); gameActive = true; loop(); }
-        function resetGame() { vX = 60; vY = V_HEIGHT / 2; speedX = 0; speedY = 0; isPlaying = false; isAtOasis = false; elapsedBeforeOasis = 0; statusText.innerText = "スマホを右に少し傾けてスタート…"; statusText.style.color = "#705e52"; timerText.innerText = "0.00"; updateBallPosition(); }
-
-        function handleOrientation(event) {
-            if (!gameActive || isAtOasis) return;
-            let tiltX = event.beta; let tiltY = -event.gamma;
-            speedX = (tiltX > 5) ? (tiltX - 5) * 0.03 : (tiltX < -5) ? (tiltX + 5) * 0.03 : 0;
-            speedY = (tiltY > 5) ? (tiltY - 5) * 0.04 : (tiltY < -5) ? (tiltY + 5) * 0.04 : 0;
-        }
-        function handleKeyDown(e) {
-            if (!gameActive || isAtOasis) return;
-            if (e.key === "ArrowRight") speedX = 0.5; if (e.key === "ArrowLeft") speedX = -0.5;
-            if (e.key === "ArrowUp") speedY = -0.6; if (e.key === "ArrowDown") speedY = 0.6;
-        }
-        function updateBallPosition() { const scale = gameView.clientWidth / V_WIDTH; ball.style.left = (vX * scale) + 'px'; ball.style.top = (vY * scale) + 'px'; }
-
+        function resetGame() { vX = 60; vY = V_HEIGHT / 2; speedX = 0; speedY = 0; tiltX = 0; tiltY = 0; isPlaying = false; isAtOasis = false; isStarted = false; elapsedBeforeOasis = 0; statusText.innerText = "2秒以内に右へ傾けてスタート！"; statusText.style.color = "#705e52"; timerText.innerText = "0.00"; updateBallPosition(); clearTimeout(startTimeoutTimer); startTimeoutTimer = setTimeout(() => { if (!isStarted && gameActive) applyPenalty("スタート遅延ペナルティ！（5mm前進）"); }, 2000); }
+        function handleOrientation(e) { if (!gameActive || isAtOasis) return; let bx = e.beta, gy = -e.gamma; tiltX = (Math.abs(bx) > 3) ? bx * 0.015 : 0; tiltY = (Math.abs(gy) > 3) ? gy * 0.02 : 0; }
+        function handleKeyDown(e) { if (!gameActive || isAtOasis) return; if (e.key === "ArrowRight") tiltX = 0.1; if (e.key === "ArrowLeft") tiltX = -0.1; if (e.key === "ArrowUp") tiltY = -0.12; if (e.key === "ArrowDown") tiltY = 0.12; }
+        function updateBallPosition() { const r = gameView.getBoundingClientRect(), s = r.width / V_WIDTH; ball.style.left = (vX * s) + 'px'; ball.style.top = (vY * s) + 'px'; }
         function loop() {
             if (!gameActive) return;
-            if ((speedX !== 0 || speedY !== 0) && !isPlaying && !isAtOasis) { isPlaying = true; startTime = performance.now(); statusText.innerText = "止まらず、戻らず、ゆっくり蛇行しよう"; }
+            if (tiltX > 0 && !isStarted && !isAtOasis) { isStarted = true; isPlaying = true; clearTimeout(startTimeoutTimer); startTime = performance.now(); statusText.innerText = "止まらず、戻らず、ゆっくり蛇行しよう"; statusText.style.color = "#705e52"; }
             if (isPlaying && !isAtOasis) {
-                let currentElapsed = (performance.now() - startTime) / 1000 + elapsedBeforeOasis;
-                timerText.innerText = currentElapsed.toFixed(2);
-                if (speedX !== 0 || speedY !== 0) {
-                    let angle = Math.atan2(speedY, speedX) * (180 / Math.PI);
-                    if (angle < 0) angle += 360;
-                    if (angle > 91 && angle < 269) { applyPenalty("後退ペナルティ！（前進）"); }
-                }
-                if (speedX === 0 && speedY === 0 && vX > 65) { applyPenalty("停止ペナルティ！（前進）"); }
+                let currentElapsed = (performance.now() - startTime) / 1000 + elapsedBeforeOasis; timerText.innerText = currentElapsed.toFixed(2);
+                speedX += tiltX; speedY += tiltY; speedX *= 0.95; speedY *= 0.95;
+                if (speedX < -0.05) { applyPenalty("後退ペナルティ！（5mm前進）"); speedX = 0; }
+                if (isStarted && Math.abs(speedX) < 0.02 && Math.abs(speedY) < 0.02) applyPenalty("停止ペナルティ！（5mm前進）");
                 vX += speedX; vY += speedY;
-                if (vY < 15) { vY = 15; speedY = -speedY; } if (vY > V_HEIGHT - 15) { vY = V_HEIGHT - 15; speedY = -speedY; }
+                if (vY < 20) { vY = 20; speedY = -speedY * 0.8; } if (vY > V_HEIGHT - 20) { vY = V_HEIGHT - 20; speedY = -speedY * 0.8; }
                 checkCollisions(); updateBallPosition();
                 if (vX >= V_WIDTH - 60) { gameClear(currentElapsed); return; }
             }
             animationFrameId = requestAnimationFrame(loop);
         }
-
-        function applyPenalty(msg) { vX += 20; statusText.innerText = msg; statusText.style.color = "#a75d5d"; if (vX > V_WIDTH - 60) vX = V_WIDTH - 60; }
+        function applyPenalty(m) { vX += 30; statusText.innerText = m; statusText.style.color = "#a75d5d"; if (vX > V_WIDTH - 60) vX = V_WIDTH - 60; }
         function checkCollisions() {
-            if (vX >= 460 && vX <= 540) { if (!isAtOasis) { triggerOasis(); } return; }
-            if (Math.hypot(vX - 300, vY - 180) < 35) { vX += 20; vY += 10; statusText.innerText = "障害物ペナルティ！（前進）"; statusText.style.color = "#a75d5d"; }
-            if (Math.hypot(vX - 720, vY - 420) < 35) { vX += 20; vY -= 10; statusText.innerText = "障害物ペナルティ！（前進）"; statusText.style.color = "#a75d5d"; }
-            if (vX >= 565 && vX <= 595) { if (vY < 250 || vY > 292) { vX += 25; statusText.innerText = "門の壁ペナルティ！（前進）"; statusText.style.color = "#a75d5d"; } }
+            if (vX >= 460 && vX <= 540) { if (!isAtOasis) triggerOasis(); return; }
+            if (Math.hypot(vX - 300, vY - 168.75) < 30) { applyPenalty("障害物ペナルティ！（5mm前進）"); speedX = 0; vY += 20; }
+            if (Math.hypot(vX - 750, vY - 393.75) < 30) { applyPenalty("障害物ペナルティ！（5mm前進）"); speedX = 0; vY -= 20; }
+            if (vX >= 565 && vX <= 595) { if (vY < 225 || vY > 337.5) { applyPenalty("門の壁ペナルティ！（5mm前進）"); vX += 30; speedX = 0; } }
         }
         function triggerOasis() {
-            isAtOasis = true; isPlaying = false; elapsedBeforeOasis += (performance.now() - startTime) / 1000;
-            speedX = 0; speedY = 0; statusText.innerHTML = "<span style='color:#617a55; font-weight:bold;'>広告再生中…（手を休めてね 5秒）</span>";
-            let count = 5;
-            let interval = setInterval(() => { count--; if (count <= 0) { clearInterval(interval); vX = 545; isAtOasis = false; startTime = performance.now(); statusText.innerText = "再出発！"; } }, 1000);
+            isAtOasis = true; isPlaying = false; elapsedBeforeOasis += (performance.now() - startTime) / 1000; speedX = 0; speedY = 0; statusText.innerHTML = "<span style='color:#617a55; font-weight:bold;'>広告再生中…（手を休めてね 5秒）</span>";
+            let c = 5; let i = setInterval(() => { c--; if (c <= 0) { clearInterval(i); vX = 545; isAtOasis = false; startTime = performance.now(); statusText.innerText = "再出発！"; statusText.style.color = "#705e52"; } }, 1000);
         }
-        function gameClear(time) { gameActive = false; isPlaying = false; cancelAnimationFrame(animationFrameId); msgText.style.color = "#617a55"; msgText.innerHTML = `ゴール！<br>記録: ${time.toFixed(2)} 秒`; overlay.style.display = 'flex'; }
+        function gameClear(t) { gameActive = false; isPlaying = false; cancelAnimationFrame(animationFrameId); msgText.style.color = "#617a55"; msgText.innerHTML = `ゴール！<br>記録: ${t.toFixed(2)} 秒`; overlay.style.display = 'flex'; }
     </script>
 </body>
 </html>
